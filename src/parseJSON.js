@@ -48,6 +48,10 @@ var parseJSON = function(json) {
   		nextChar();
   		arr.push(value());
   	}
+    checkSpaces();
+    if(char !== ']'){
+      return arr = undefined;
+    }
   	nextChar();
   	return arr;
   }
