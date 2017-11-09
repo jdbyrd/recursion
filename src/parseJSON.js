@@ -3,11 +3,9 @@
 
 // but you're not, so you'll write it from scratch:
 var parseJSON = function(json) {
-  // your code goes here
 
   var count = 0;
   var char = json.charAt(count);
-
 
   var nextChar = function(){
   	count++;
@@ -27,12 +25,11 @@ var parseJSON = function(json) {
   	}else if(char == "\""){
   		nextChar();
   		return string();
-  	}else if(char >= 0 || char <= 9){
+  	}else if(char >= 0 || char <= 9 || char == '-'){
   		return number();
   	}else{
   		return other();
   	}
-
   }
 
   var array = function(){
@@ -78,8 +75,8 @@ var parseJSON = function(json) {
   	return obj;
   }
 
-  function string(){
-  	var str = ""
+  var string = function(){
+  	var str = "";
   	while(char != '\"'){
   		str += char;
   		nextChar();
@@ -88,18 +85,21 @@ var parseJSON = function(json) {
   	return str;
   }
 
-  function number(){
-
-  }
-
-
-/*  function other(){
-  	var str = "";
-  	while(char != '\"'){
+  var number = function(){
+  	var str = '';
+  	while(char >= 0 || char <=9 || char == '-' || char == '.'){
   		str += char;
   		nextChar();
   	}
-  	nextChar();
+  	return Number(str);
+  }
+
+  var other = function(){
+  	var str = "";
+  	while(str != 'false' && str != 'true' && str != 'null'){
+  		str += char;
+  		nextChar();
+  	}
   	if(str === 'false'){
   		return false;
   	}else if(str === 'true'){
@@ -110,7 +110,7 @@ var parseJSON = function(json) {
   		return undefined;
   	}
   }
-*/
+
   return value();
 
 };
