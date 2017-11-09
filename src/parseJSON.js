@@ -12,10 +12,14 @@ var parseJSON = function(json) {
   	char = json.charAt(count);
   }
 
-  var value = function(){
+  var checkSpaces = function(){
   	while(char === " "){
   		nextChar();
   	}
+  }
+
+  var value = function(){
+  	checkSpaces();
   	if(char === '{'){
   		nextChar();
   		return object();
@@ -33,7 +37,8 @@ var parseJSON = function(json) {
   }
 
   var array = function(){
-  	arr = [];
+  	checkSpaces();
+  	var arr = [];
   	if(char === ']'){
   		nextChar();
   		return arr;
@@ -48,14 +53,16 @@ var parseJSON = function(json) {
   }
 
   var object = function(){
-
+  	checkSpaces();
   	var obj = {};
   	var keyValue = function(){
   		while(char === " " || char == '\"'){
   			nextChar();
   		}
   		var key = string();
+  		checkSpaces();
   		nextChar();
+  		checkSpaces();
   		var val = value();
   		obj[key] = val;
   	}
@@ -68,7 +75,9 @@ var parseJSON = function(json) {
   	keyValue();
   	while(char === ','){
   		nextChar();
+  		checkSpaces();
   		keyValue();
+  		checkSpaces();
   	}
 
   	nextChar();
@@ -78,7 +87,12 @@ var parseJSON = function(json) {
   var string = function(){
   	var str = "";
   	while(char != '\"'){
-  		str += char;
+  		if(char == '\\'){
+  			nextChar();
+  			str += char;
+  		}else{
+  			str += char;
+  		}
   		nextChar();
   	}
   	nextChar();
