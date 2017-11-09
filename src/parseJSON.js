@@ -13,7 +13,7 @@ var parseJSON = function(json) {
   }
 
   var checkSpaces = function(){
-  	while(char === " "){
+  	while(char === " " || char == '\r' || char === '\t' || char == '\n'){
   		nextChar();
   	}
   }
